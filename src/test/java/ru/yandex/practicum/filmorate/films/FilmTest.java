@@ -3,9 +3,8 @@ package ru.yandex.practicum.filmorate.films;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.datavalidation.DateValidatorUsingDate;
+import ru.yandex.practicum.filmorate.datavalidation.ValidationFieldsFilm;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -57,6 +56,6 @@ public class FilmTest {
     @DisplayName("5) Проверка валидации. Проверка даты на 1985-12-28")
     void correctlyDateFilmTest() {
         final Film film = new Film(1, "Титаник", "Корабль женщина смерть", LocalDate.of(1985, 12, 27), 100);
-        Assertions.assertFalse(DateValidatorUsingDate.isValidDate(film.getReleaseDate()), "Фильм не раньше 1985-12-28");
+        Assertions.assertFalse(ValidationFieldsFilm.isValidDate(film.getReleaseDate()), "Фильм не раньше 1985-12-28");
     }
 }

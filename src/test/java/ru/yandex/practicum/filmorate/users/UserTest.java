@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ru.yandex.practicum.filmorate.datavalidation.DateValidatorUsingDate;
-import ru.yandex.practicum.filmorate.datavalidation.LoginValidatorUsingLogin;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.datavalidation.ValidationFieldsUser;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.*;
@@ -67,6 +65,6 @@ public class UserTest {
     @DisplayName("6) Проверка валидации. Проверка логина на пробелы")
     void correctlyLoginTest() {
         final User user = new User(1, "qw@mail.ru", "q w", "name", LocalDate.of(2000, 11, 14));
-        Assertions.assertTrue(LoginValidatorUsingLogin.isValidLogin(user.getLogin()), "В логине есть пробелы");
+        Assertions.assertTrue(ValidationFieldsUser.isValidLogin(user.getLogin()), "В логине есть пробелы");
     }
 }
