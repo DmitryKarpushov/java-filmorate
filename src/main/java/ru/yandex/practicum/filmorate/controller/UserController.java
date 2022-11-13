@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.datavalidation.LoginValidatorUsingLogin;
 import ru.yandex.practicum.filmorate.exception.DateValidationException;
+import ru.yandex.practicum.filmorate.exception.IdValidationException;
 import ru.yandex.practicum.filmorate.exception.LoginValidationException;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
+import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -17,29 +20,41 @@ import java.util.*;
 @RequestMapping("/users")
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private final List<User> users = new ArrayList<>();
+    private Map<Integer, User> users = new HashMap<>();
+    private Integer idTask = 0;
+
+    private Integer generateId() {
+        idTask++;
+        return idTask;
+    }
 
     @GetMapping
     public List<User> findAll() {
-        return users;
+        return new ArrayList<>(users.values());
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         logger.info("UserController.createUser: Начали создание пользователя");
         if (LoginValidatorUsingLogin.isValidLogin(user.getLogin())){
-            throw new LoginValidationException("UserController.createUser: Логин содержит пробелы");
+            throw new LoginValidationException("1)UserController.createUser: Логин содержит пробелы");
         }
-        if (user.getName().isEmpty()){
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()){
             logger.info("UserController.createUser: Устанавливаем Имя пользователю(его логин)");
             user.setName(user.getLogin());
         }
-        users.add(user);
+        int idUser = generateId();
+        user.setId(idUser);
+        users.put(idUser,user);
+        return user;
     }
 
     @PutMapping
-    public void updateUser(@RequestBody User user) {
+    public User updateUser(@Valid @RequestBody User user) {
         logger.info("UserController.updateUser: Обновляем пользователя");
+        if (!users.containsKey(user.getId())){
+            throw new IdValidationException("FilmController.createFilm: Такого фильма не существует");
+        }
         if (LoginValidatorUsingLogin.isValidLogin(user.getLogin())){
             throw new DateValidationException("UserController.updateUser: Логин содержит пробелы");
         }
@@ -47,12 +62,7 @@ public class UserController {
             logger.info("UserController.updateUser: Устанавливаем Имя пользователю(его логин)");
             user.setName(user.getLogin());
         }
-        ListIterator<User> iterator = users.listIterator();
-        while (iterator.hasNext()) {
-            User next = iterator.next();
-            if ((next.getId()).equals(user.getId())) {
-                iterator.set(user);
-            }
-        }
+        users.put(user.getId(),user);
+        return user;
     }
 }
