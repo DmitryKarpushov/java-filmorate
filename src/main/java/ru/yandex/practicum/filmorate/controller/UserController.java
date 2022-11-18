@@ -18,6 +18,7 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private Map<Integer, User> users = new HashMap<>();
     private Integer idTask = 0;
+
     private Integer generateId() {
         idTask++;
         return idTask;
@@ -31,7 +32,10 @@ public class UserController {
     @PostMapping
     public User createUser(@Valid @RequestBody User user) {
         logger.info("UserController.createUser: Начали создание пользователя");
-        ValidationFieldsUser.validateFields(user);
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()){
+            logger.info("UserController.createUser: Устанавливаем Имя пользователю(его логин)");
+            user.setName(user.getLogin());
+        }
         int idUser = generateId();
         user.setId(idUser);
         users.put(idUser,user);
@@ -42,7 +46,10 @@ public class UserController {
     public User updateUser(@Valid @RequestBody User user) {
         logger.info("UserController.updateUser: Обновляем пользователя");
         ValidationFieldsUser.noFoundUser(user,users);
-        ValidationFieldsUser.validateFields(user);
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()){
+            logger.info("UserController.updateUser: Устанавливаем Имя пользователю(его логин)");
+            user.setName(user.getLogin());
+        }
         users.put(user.getId(),user);
         return user;
     }

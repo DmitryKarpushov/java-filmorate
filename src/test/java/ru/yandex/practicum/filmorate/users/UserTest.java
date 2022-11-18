@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import ru.yandex.practicum.filmorate.datavalidation.ValidationFieldsUser;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.*;
@@ -61,10 +60,21 @@ public class UserTest {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         Assertions.assertFalse(violations.isEmpty(),"Пустой логин");
     }
+
     @Test
-    @DisplayName("6) Проверка валидации. Проверка логина на пробелы")
-    void correctlyLoginTest() {
-        final User user = new User(1, "qw@mail.ru", "q w", "name", LocalDate.of(2000, 11, 14));
-        Assertions.assertTrue(ValidationFieldsUser.isValidLogin(user.getLogin()), "В логине есть пробелы");
+    @DisplayName("6) Проверка валидации. Передаем логин с пробелом в поле")
+    void correctlyLoginUserTestSecond() {
+        final User user = new User(1, "qw@mail.ru", "da da", "name", LocalDate.of(2000, 11, 14));
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        Assertions.assertFalse(violations.isEmpty(),"Пустой логин");
     }
+
+    @Test
+    @DisplayName("7) Проверка валидации. Передаем верный логин")
+    void correctlyLoginUserTestThird() {
+        final User user = new User(1, "qw@mail.ru", "dada", "name", LocalDate.of(2000, 11, 14));
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        Assertions.assertTrue(violations.isEmpty(),"Пустой логин");
+    }
+
 }

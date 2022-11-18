@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.films;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.datavalidation.ValidationFieldsFilm;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import javax.validation.ConstraintViolation;
@@ -36,6 +35,7 @@ public class FilmTest {
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         Assertions.assertFalse(violations.isEmpty(), "Пустое название фильма");
     }
+
     @Test
     @DisplayName("3) Проверка валидации. Описание max=200, в примере 201")
     void correctlyDescriptionFilmTest() {
@@ -45,6 +45,7 @@ public class FilmTest {
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         Assertions.assertFalse(violations.isEmpty(), "Описание более 200 символов");
     }
+
     @Test
     @DisplayName("4) Проверка валидации. Описание max=200, в примере 201")
     void correctlyDurationFilmTest() {
@@ -52,10 +53,21 @@ public class FilmTest {
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         Assertions.assertFalse(violations.isEmpty(), "Продолжительность фильмов должна быть больше 0");
     }
+
     @Test
-    @DisplayName("5) Проверка валидации. Проверка даты на 1985-12-28")
-    void correctlyDateFilmTest() {
+    @DisplayName("5) Проверка валидации. Проверка даты на 1895-12-28")
+    void correctlyDateFilmTestFirst() {
         final Film film = new Film(1, "Титаник", "Корабль женщина смерть", LocalDate.of(1985, 12, 27), 100);
-        Assertions.assertFalse(ValidationFieldsFilm.isValidDate(film.getReleaseDate()), "Фильм не раньше 1985-12-28");
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        System.out.println(violations);
+        Assertions.assertTrue(violations.isEmpty(), "Фильм не раньше 1895-12-28");
+    }
+
+    @Test
+    @DisplayName("6) Проверка валидации. Проверка даты на 1895-12-28")
+    void correctlyDateFilmTestSecond() {
+        final Film film = new Film(1, "Титаник", "Корабль женщина смерть", LocalDate.of(1795, 12, 27), 100);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertFalse(violations.isEmpty(), "Фильм раньше 1895-12-28");
     }
 }
