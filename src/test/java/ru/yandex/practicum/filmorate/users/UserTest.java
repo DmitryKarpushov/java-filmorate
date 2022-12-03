@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 12.11.2022
+ * @author Дмитрий Карпушов 12.11.2022
  */
 public class UserTest {
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -25,56 +25,56 @@ public class UserTest {
 
 
     @Test
-    @DisplayName("1) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј РІРµСЂРЅРѕ-Р·Р°РїРѕР»РЅРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚")
+    @DisplayName("1) Проверка валидации. Передаем верно-заполненный объект")
      void correctlyFilledUserTest() {
         final User user = new User(1, "qw@mail.ru", "test", "name", LocalDate.of(2000, 12, 12));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertTrue(violations.isEmpty(),"Р—Р°РїРѕР»РЅРµРЅРѕ РІСЃРµ РІРµСЂРЅРѕ");
+        Assertions.assertTrue(violations.isEmpty(),"Заполнено все верно");
     }
     @Test
-    @DisplayName("2) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј РЅРµРІРµСЂРЅРѕ-Р·Р°РїРѕР»РЅРµРЅРЅС‹Р№ Email")
+    @DisplayName("2) Проверка валидации. Передаем неверно-заполненный Email")
      void correctlyEmailUserTestFirst() {
         final User user = new User(1, "badEmail", "test", "name", LocalDate.of(2000, 12, 12));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertFalse(violations.isEmpty(),"РќРµРІРµСЂРЅРѕ Р·Р°РїРѕР»РЅРµРЅ email");
+        Assertions.assertFalse(violations.isEmpty(),"Неверно заполнен email");
     }
     @Test
-    @DisplayName("3) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј РїСѓСЃС‚РѕР№ Email")
+    @DisplayName("3) Проверка валидации. Передаем пустой Email")
     void correctlyEmailUserTestSecond() {
         final User user = new User(1, "", "test", "name", LocalDate.of(2000, 12, 12));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertFalse(violations.isEmpty(),"РџСѓСЃС‚РѕР№ email");
+        Assertions.assertFalse(violations.isEmpty(),"Пустой email");
     }
 
     @Test
-    @DisplayName("4) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј Р±СѓРґСѓС‰СѓСЋ РґР°С‚Сѓ")
+    @DisplayName("4) Проверка валидации. Передаем будущую дату")
     void correctlyBirthdayUserTest() {
         final User user = new User(1, "qw@mail.ru", "test", "name", LocalDate.of(2025, 11, 14));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertFalse(violations.isEmpty(),"Р‘СѓРґСѓС‰Р°СЏ РґР°С‚Р°");
+        Assertions.assertFalse(violations.isEmpty(),"Будущая дата");
     }
     @Test
-    @DisplayName("5) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј РїСѓСЃС‚РѕР№ Р»РѕРіРёРЅ")
+    @DisplayName("5) Проверка валидации. Передаем пустой логин")
     void correctlyLoginUserTest() {
         final User user = new User(1, "qw@mail.ru", "", "name", LocalDate.of(2000, 11, 14));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertFalse(violations.isEmpty(),"РџСѓСЃС‚РѕР№ Р»РѕРіРёРЅ");
+        Assertions.assertFalse(violations.isEmpty(),"Пустой логин");
     }
 
     @Test
-    @DisplayName("6) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј Р»РѕРіРёРЅ СЃ РїСЂРѕР±РµР»РѕРј РІ РїРѕР»Рµ")
+    @DisplayName("6) Проверка валидации. Передаем логин с пробелом в поле")
     void correctlyLoginUserTestSecond() {
         final User user = new User(1, "qw@mail.ru", "da da", "name", LocalDate.of(2000, 11, 14));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertFalse(violations.isEmpty(),"РџСѓСЃС‚РѕР№ Р»РѕРіРёРЅ");
+        Assertions.assertFalse(violations.isEmpty(),"Пустой логин");
     }
 
     @Test
-    @DisplayName("7) РџСЂРѕРІРµСЂРєР° РІР°Р»РёРґР°С†РёРё. РџРµСЂРµРґР°РµРј РІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ")
+    @DisplayName("7) Проверка валидации. Передаем верный логин")
     void correctlyLoginUserTestThird() {
         final User user = new User(1, "qw@mail.ru", "dada", "name", LocalDate.of(2000, 11, 14));
         Set<ConstraintViolation<User>> violations = validator.validate(user);
-        Assertions.assertTrue(violations.isEmpty(),"РџСѓСЃС‚РѕР№ Р»РѕРіРёРЅ");
+        Assertions.assertTrue(violations.isEmpty(),"Пустой логин");
     }
 
 }

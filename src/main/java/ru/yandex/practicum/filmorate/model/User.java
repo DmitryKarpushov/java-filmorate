@@ -8,23 +8,23 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 10.11.2022
+ * @author Дмитрий Карпушов 10.11.2022
  */
 @Data
 @AllArgsConstructor
 public class User {
-    Integer id; //С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
+    Integer id; //целочисленный идентификатор
     @NotEmpty
-    @Email(message = "РќРµРїСЂР°РІРёР»СЊРЅРѕ РІРІРµРґРµРЅ Email")
-    String email; // СЌР»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°
+    @Email(message = "Неправильно введен Email")
+    String email; // электронная почта
     @NotEmpty
     /**
-     * РљР°СЃС‚РѕРјРЅР°СЏ РІР°Р»РёРґР°С†РёСЏ С‡РµСЂРµР· СЂРµРіСѓР»СЏСЂРЅРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ, РЅР° РїСЂРѕРІРµСЂРєСѓ РЅР°Р»РёС‡РёСЏ РїСЂРѕР±РµР»РѕРІ РІ СЃС‚СЂРѕРєРµ.
+     * Кастомная валидация через регулярное выражение, на проверку наличия пробелов в строке.
      * */
     @Pattern(regexp = "^\\S*")
-    String login; // Р»РѕРіРёРЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
-    String name; // РёРјСЏ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
+    String login; // логин пользователя
+    String name; // имя для отображения
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @PastOrPresent
-    LocalDate birthday; // РґР°С‚Р° СЂРѕР¶РґРµРЅРёСЏ
+    LocalDate birthday; // дата рождения
 }

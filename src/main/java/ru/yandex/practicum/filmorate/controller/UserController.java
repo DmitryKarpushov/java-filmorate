@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 10.11.2022
+ * @author Дмитрий Карпушов 10.11.2022
  */
 @RestController
 @RequestMapping("/users")
@@ -31,9 +31,9 @@ public class UserController {
 
     @PostMapping
     public User createUser(@Valid @RequestBody User user) {
-        logger.info("UserController.createUser: РќР°С‡Р°Р»Рё СЃРѕР·РґР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ");
+        logger.info("UserController.createUser: Начали создание пользователя");
         if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()){
-            logger.info("UserController.createUser: РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ(РµРіРѕ Р»РѕРіРёРЅ)");
+            logger.info("UserController.createUser: Устанавливаем Имя пользователю(его логин)");
             user.setName(user.getLogin());
         }
         int idUser = generateId();
@@ -44,10 +44,10 @@ public class UserController {
 
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
-        logger.info("UserController.updateUser: РћР±РЅРѕРІР»СЏРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ");
+        logger.info("UserController.updateUser: Обновляем пользователя");
         ValidationFieldsUser.noFoundUser(user,users);
         if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()){
-            logger.info("UserController.updateUser: РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ(РµРіРѕ Р»РѕРіРёРЅ)");
+            logger.info("UserController.updateUser: Устанавливаем Имя пользователю(его логин)");
             user.setName(user.getLogin());
         }
         users.put(user.getId(),user);

@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 12.11.2022
+ * @author Дмитрий Карпушов 12.11.2022
  */
 public class ValidationFieldsUser {
 
@@ -19,8 +19,8 @@ public class ValidationFieldsUser {
 
     public static void noFoundUser(User user, Map<Integer, User> users) {
         if (!users.containsKey(user.getId())) {
-            logger.info("ValidationFieldsUser.noFoundUser: РџСЂРѕРІРµСЂСЏРµРј РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ");
-            throw new NotFoundException("РўР°РєРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+            logger.info("ValidationFieldsUser.noFoundUser: Проверяем на существование пользователя");
+            throw new NotFoundException("Такого пользователя не существует");
         }
     }
 }

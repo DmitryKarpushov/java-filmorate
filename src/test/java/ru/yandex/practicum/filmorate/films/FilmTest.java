@@ -47,7 +47,7 @@ public class FilmTest {
     }
 
     @Test
-    @DisplayName("4) Проверка валидации. Описание max=200, в примере 201")
+    @DisplayName("4) Проверка валидации. Продолжительность фильмов должна быть больше 0")
     void correctlyDurationFilmTest() {
         final Film film = new Film(1, "Титаник", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), -5);
         Set<ConstraintViolation<Film>> violations = validator.validate(film);

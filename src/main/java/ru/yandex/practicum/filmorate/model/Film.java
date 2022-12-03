@@ -11,22 +11,22 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 10.11.2022
+ * @author Дмитрий Карпушов 10.11.2022
  */
 @Data
 @AllArgsConstructor
 /**
- * FilmValid - РєР°СЃС‚РѕРјРЅС‹Р№ validator
+ * FilmValid - кастомный validator
  * */
 @FilmValid
 public class Film {
-    Integer id; //С†РµР»РѕС‡РёСЃР»РµРЅРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
-    @NotEmpty(message = "РРјСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј")
-    String name; // РЅР°Р·РІР°РЅРёРµ
-    @Size(max = 200, message = "РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РѕРїРёСЃР°РЅРёСЏ 200 СЃРёРјРІРѕР»РѕРІ")
-    String description;//РѕРїРёСЃР°РЅРёРµ
+    Integer id; //целочисленный идентификатор
+    @NotEmpty(message = "Имя не может быть пустым")
+    String name; // название
+    @Size(max = 200, message = "Максимальная длина описания 200 символов")
+    String description;//описание
     @JsonFormat(pattern = "yyyy-MM-dd")
-    LocalDate releaseDate; //РґР°С‚Р° СЂРµР»РёР·Р°
+    LocalDate releaseDate; //дата релиза
     @Positive
-    long duration; //РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ С„РёР»СЊРјР°
+    long duration; //продолжительность фильма
 }

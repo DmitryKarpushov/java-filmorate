@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 10.11.2022
+ * @author Дмитрий Карпушов 10.11.2022
  */
 @RestController
 @RequestMapping("/films")
@@ -32,7 +32,7 @@ public class FilmController {
 
     @PostMapping
     public Film createFilm(@Valid @RequestBody Film film) {
-        logger.info("FilmController.createFilm: РќР°С‡Р°Р»Рё РґРѕР±Р°РІР»РµРЅРёРµ С„РёР»СЊРјР°");
+        logger.info("FilmController.createFilm: Начали добавление фильма");
         int idFilm = generateId();
         film.setId(idFilm);
         films.put(idFilm, film);
@@ -41,7 +41,7 @@ public class FilmController {
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
-        logger.info("FilmController.createFilm: РќР°С‡Р°Р»Рё РѕР±РЅРѕРІР»РµРЅРёРµ С„РёР»СЊРјР°");
+        logger.info("FilmController.createFilm: Начали обновление фильма");
         ValidationFieldsFilm.noFoundFilm(film, films);
         films.put(film.getId(), film);
         return film;
