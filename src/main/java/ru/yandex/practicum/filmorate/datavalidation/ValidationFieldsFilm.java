@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.Map;
 
 /**
- * @author Дмитрий Карпушов 12.11.2022
+ * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 12.11.2022
  */
 public class ValidationFieldsFilm {
 
@@ -17,8 +17,8 @@ public class ValidationFieldsFilm {
 
     public static void noFoundFilm(Film film, Map<Integer, Film> films) {
         if (!films.containsKey(film.getId())) {
-            logger.info("ValidationFieldsFilm.isValidDate: Проверяем на существование фильма");
-            throw new NotFoundException("Такого фильма не существует");
+            logger.info("ValidationFieldsFilm.isValidDate: РџСЂРѕРІРµСЂСЏРµРј РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ С„РёР»СЊРјР°");
+            throw new NotFoundException("РўР°РєРѕРіРѕ С„РёР»СЊРјР° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
         }
     }
 }

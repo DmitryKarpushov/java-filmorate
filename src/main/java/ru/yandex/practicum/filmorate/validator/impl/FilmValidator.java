@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 /**
- * @author Дмитрий Карпушов 17.11.2022
+ * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 17.11.2022
  */
 public class FilmValidator implements ConstraintValidator<FilmValid, Film> {
 
