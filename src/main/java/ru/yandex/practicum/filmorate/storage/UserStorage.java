@@ -11,12 +11,15 @@ import java.util.Map;
  */
 @Component
 public interface UserStorage {
-    Map<Integer, User> getUsers();
 
-    User addUser(User user);
+    Map<Integer, User> getAll();
 
-    User updateUser(User user);
+    User getById(Integer id);
 
-    void deleteUser(Integer id);
+    User add(User user);
+
+    User update(User user);
+
+    void delete(Integer id);
 
 }

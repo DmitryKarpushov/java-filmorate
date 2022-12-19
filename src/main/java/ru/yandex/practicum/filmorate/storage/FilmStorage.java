@@ -10,11 +10,14 @@ import java.util.Map;
  */
 @Component
 public interface FilmStorage {
-    Map<Integer, Film> getFilms();
 
-    Film addFilm(Film film);
+    Map<Integer, Film> getAll();
 
-    void deleteFilm(Integer id);
+    Film getById(Integer id);
 
-    Film updateFilm(Film film);
+    Film add(Film film);
+
+    void delete(Integer id);
+
+    Film update(Film film);
 }

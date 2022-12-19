@@ -20,12 +20,17 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public Map<Integer, User> getUsers() {
+    public Map<Integer, User> getAll() {
         return users;
     }
 
     @Override
-    public User addUser(User user) {
+    public User getById(Integer id) {
+        return users.get(id);
+    }
+
+    @Override
+    public User add(User user) {
         int idUser = generateId();
         user.setId(idUser);
         users.put(idUser, user);
@@ -33,14 +38,12 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public void deleteUser(Integer id) {
-        if (users.containsKey(id)) {
-            users.remove(id);
-        }
+    public void delete(Integer id) {
+        users.remove(id);
     }
 
     @Override
-    public User updateUser(User user) {
+    public User update(User user) {
         users.put(user.getId(), user);
         return user;
     }

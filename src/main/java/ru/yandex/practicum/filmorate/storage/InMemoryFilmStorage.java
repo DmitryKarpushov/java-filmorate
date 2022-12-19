@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.datavalidation.ValidationFieldsFilm;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.HashMap;
@@ -22,12 +21,12 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Map<Integer, Film> getFilms() {
+    public Map<Integer, Film> getAll() {
         return films;
     }
 
     @Override
-    public Film addFilm(Film film) {
+    public Film add(Film film) {
         int idFilm = generateId();
         film.setId(idFilm);
         films.put(idFilm, film);
@@ -35,16 +34,18 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public void deleteFilm(Integer id) {
-        if (films.containsKey(id)) {
-            films.remove(id);
-        }
+    public void delete(Integer id) {
+        films.remove(id);
     }
 
     @Override
-    public Film updateFilm(Film film) {
-        ValidationFieldsFilm.noFoundFilm(film, films);
+    public Film update(Film film) {
         films.put(film.getId(), film);
         return film;
+    }
+
+    @Override
+    public Film getById(Integer id) {
+        return films.get(id);
     }
 }

@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -47,7 +47,7 @@ public class User {
         if (idFriend > 0) {
             friends.add(idFriend);
         } else {
-            throw new UserNotFoundException("Для добавления в друзья,должен быть положительный ID");
+            throw new NotFoundException("Для добавления в друзья,должен быть положительный ID");
         }
     }
 
@@ -55,7 +55,7 @@ public class User {
         if (idFriend > 0) {
             friends.remove(idFriend);
         } else {
-            throw new UserNotFoundException("Для удаления из друзей,должен быть положительный ID");
+            throw new NotFoundException("Для удаления из друзей,должен быть положительный ID");
         }
     }
 }
