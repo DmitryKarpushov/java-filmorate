@@ -46,7 +46,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable int id) {
         log.info("UserController. getUser. Получение пользователя.");
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
