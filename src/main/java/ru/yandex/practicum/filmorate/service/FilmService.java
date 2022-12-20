@@ -21,12 +21,11 @@ public class FilmService {
         this.inMemoryFilmStorage = inMemoryFilmStorage;
     }
 
-    public Map<Integer, Film> getFilms() {
+    public List<Film> getFilms() {
         return inMemoryFilmStorage.getAll();
     }
 
     public Film getFilmById(Integer id) {
-        existsFilm(id);
         return inMemoryFilmStorage.getById(id);
     }
 
@@ -39,7 +38,6 @@ public class FilmService {
     }
 
     public void updateFilm(Film film) {
-        existsFilm(film);
         inMemoryFilmStorage.update(film);
     }
 
@@ -47,9 +45,8 @@ public class FilmService {
      * Добавление лайка на фильм
      */
     public void addLikeFilm(Integer filmId, Integer userId) {
-        existsFilm(filmId);
-        if (!inMemoryFilmStorage.getAll().get(filmId).getUsersLikedFilm().contains(userId)) {
-            inMemoryFilmStorage.getAll().get(filmId).addLike(userId);
+        if (!inMemoryFilmStorage.getById(filmId).getUsersLikedFilm().contains(userId)) {
+            inMemoryFilmStorage.getById(filmId).addLike(userId);
         }
     }
 
@@ -57,8 +54,8 @@ public class FilmService {
      * Удаление лайка на фильм
      */
     public void deleteLikeFilm(Integer filmId, Integer userId) {
-        existsFilmOrUser(filmId, userId);
-        inMemoryFilmStorage.getAll().get(filmId).deleteLike(userId);
+        existsUser(userId);
+        inMemoryFilmStorage.getById(filmId).deleteLike(userId);
     }
 
     /**
@@ -71,35 +68,15 @@ public class FilmService {
             }
             return film2.getRating().compareTo(film1.getRating());
         };
-        return inMemoryFilmStorage.getAll().values().stream()
+        return inMemoryFilmStorage.getAll().stream()
                 .sorted(filmComparator)
                 .limit(count)
                 .collect(Collectors.toList());
     }
 
-    private Boolean existsFilm(Film film) {
-        if (!getFilms().containsKey(film.getId())) {
-            throw new NotFoundException("Нет фильма с таким ID.");
-        } else {
-            return true;
-        }
-    }
-
-    private Boolean existsFilm(Integer filmId) {
-        if (!getFilms().containsKey(filmId)) {
-            throw new NotFoundException("Нет фильма с таким ID.");
-        } else {
-            return true;
-        }
-    }
-
-    private Boolean existsFilmOrUser(Integer id, Integer userId) {
+    private void existsUser(Integer userId) {
         if (userId < 1) {
             throw new NotFoundException("Id пользователя должно быть больше 1.");
-        } else if (!getFilms().containsKey(id)) {
-            throw new NotFoundException("Нет фильма с таким ID.");
-        } else {
-            return true;
         }
     }
 }

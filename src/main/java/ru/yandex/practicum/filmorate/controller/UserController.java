@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping
     public List<User> getUsers() {
         log.info("UserController. findAll. Получаем всех пользователей.");
-        return new ArrayList<>(userService.getUsers().values());
+        return userService.getUsers();
     }
 
     @PostMapping

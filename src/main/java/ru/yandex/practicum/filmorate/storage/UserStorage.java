@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Дмитрий Карпушов 03.12.2022
@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public interface UserStorage {
 
-    Map<Integer, User> getAll();
+    List<User> getAll();
 
     User getById(Integer id);
 

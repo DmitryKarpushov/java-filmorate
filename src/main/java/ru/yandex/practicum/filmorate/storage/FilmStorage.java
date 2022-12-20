@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Дмитрий Карпушов 03.12.2022
@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public interface FilmStorage {
 
-    Map<Integer, Film> getAll();
+    List<Film> getAll();
 
     Film getById(Integer id);
 

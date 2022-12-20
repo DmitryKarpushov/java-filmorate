@@ -30,7 +30,7 @@ public class FilmController {
     @GetMapping()
     public List<Film> getFilms() {
         log.info("FilmController. getFilms. Получаем все фильмы.");
-        return new ArrayList<>(filmService.getFilms().values());
+        return filmService.getFilms();
     }
 
     @PostMapping()
