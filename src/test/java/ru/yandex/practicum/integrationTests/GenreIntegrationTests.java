@@ -33,7 +33,7 @@ class GenreIntegrationTests {
         nameGenre.add("Мультфильм");
         nameGenre.add("Триллер");
         nameGenre.add("Документальный");
-        nameGenre.add("Боевик");
+        nameGenre.add("Боевик.");
         for (int i = 0; i < nameGenre.size(); i++) {
             assertFalse(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
         }
