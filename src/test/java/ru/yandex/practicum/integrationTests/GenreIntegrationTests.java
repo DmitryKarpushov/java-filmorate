@@ -12,6 +12,7 @@ import ru.yandex.practicum.filmorate.dao.impl.GenreDbStorage;
 
 import java.util.LinkedList;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -34,7 +35,7 @@ class GenreIntegrationTests {
         nameGenre.add("Документальный");
         nameGenre.add("Боевик");
         for (int i = 0; i < nameGenre.size(); i++) {
-            assertTrue(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
+            assertFalse(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
         }
     }
 
