@@ -4,6 +4,7 @@ package ru.yandex.practicum.filmorate.handler;
  * @author Дмитрий Карпушов 05.12.2022
  */
 public class ErrorResponse {
+
     String error;
     String description;
 

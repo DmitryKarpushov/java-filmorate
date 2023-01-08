@@ -9,15 +9,17 @@ import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
  * @author Дмитрий Карпушов 10.11.2022
  */
+@Slf4j
 @RestController
 @RequestMapping("/users")
-@Slf4j
 public class UserController {
+
     final UserService userService;
 
     @Autowired
@@ -25,47 +27,47 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping()
     public List<User> getUsers() {
-        log.info("UserController. findAll. Получаем всех пользователей.");
-        return userService.getUsers();
+        log.info("UserController. getUsers. Получение списка пользователей");
+        return userService.getAll();
     }
 
-    @PostMapping
+    @PostMapping()
     public User createUser(@Valid @RequestBody User user) {
-        log.info("UserController. createUser. Создание пользователя.");
-        return userService.addUser(user);
+        log.info("UserController. createUser. Создание пользователя");
+        return userService.add(user);
     }
 
-    @PutMapping
-    public User updateUser(@Valid @RequestBody User user) {
-        log.info("UserController. updateUser. Обновление пользователя.");
-        return userService.updateUser(user);
+    @PutMapping()
+    public ResponseEntity<User> updateUser(@Valid @RequestBody @NotNull User user) {
+        log.info("UserController. updateUser. Обновление пользователя");
+        userService.update(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable int id) {
-        log.info("UserController. getUser. Получение пользователя.");
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+        log.info("UserController. getUserById. Получение пользователя по id");
+        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public ResponseEntity<User> putUserFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
-        log.info("UserController. putUserFriend. Добавление в друзья.");
-        userService.addFriend(id, friendId);
-        return new ResponseEntity<>(userService.getUsers().get(id), HttpStatus.OK);
+    public ResponseEntity<Boolean> addUserFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        log.info("UserController. addUserFriend. Добавление в друзья");
+        return new ResponseEntity<>(userService.addFriend(id, friendId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     public ResponseEntity<User> deleteUserFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
-        log.info("UserController. deleteUserFriend. Удаление из друзей.");
+        log.info("UserController. deleteUserFriend. Удаление из друзей");
         userService.deleteFriend(id, friendId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{id}/friends")
     public ResponseEntity<List<User>> getUserFriends(@PathVariable Integer id) {
-        log.info("UserController. getUserFriends. Получение друзей.");
+        log.info("UserController. getUserFriends. Удаление из друзей");
         return new ResponseEntity<>(userService.getUserFriends(id), HttpStatus.OK);
     }
 

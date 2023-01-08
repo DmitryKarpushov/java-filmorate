@@ -15,9 +15,9 @@ import java.util.*;
 /**
  * @author Дмитрий Карпушов 10.11.2022
  */
+@Slf4j
 @RestController
 @RequestMapping("/films")
-@Slf4j
 public class FilmController {
 
     final FilmService filmService;
@@ -30,45 +30,45 @@ public class FilmController {
     @GetMapping()
     public List<Film> getFilms() {
         log.info("FilmController. getFilms. Получаем все фильмы.");
-        return filmService.getFilms();
+        return filmService.getAll();
     }
 
     @PostMapping()
     public Film createFilm(@Valid @RequestBody Film film) {
         log.info("FilmController. createFilm. Добавление фильма.");
-        return filmService.addFilm(film);
+        return filmService.add(film);
     }
 
     @PutMapping()
     public ResponseEntity<Film> updateFilm(@Valid @RequestBody @NotNull Film film) {
         log.info("FilmController. updateFilm. Обновление фильма.");
-        filmService.updateFilm(film);
+        filmService.update(film);
         return new ResponseEntity<>(film, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Film> getFilm(@PathVariable int id) {
-        log.info("FilmController. getFilm. Получение фильма.");
-        return new ResponseEntity<>(filmService.getFilmById(id), HttpStatus.OK);
+    public ResponseEntity<Film> getFilmById(@PathVariable int id) {
+        log.info("FilmController. getFilmById. Получение фильма.");
+        return new ResponseEntity<>(filmService.getById(id), HttpStatus.OK);
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count) {
+    public ResponseEntity<List<Film>> getPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count) {
         log.info("FilmController. getPopularFilms. Получение фильма.");
-        return filmService.getMostPopularMoviesOfLikes(count);
+        return new ResponseEntity<>(filmService.getMostPopularMoviesOfLikes(count), HttpStatus.OK);
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public ResponseEntity<Film> addLikeFilm(@PathVariable Integer id, @PathVariable Integer userId) {
+    public ResponseEntity addLikeFilm(@PathVariable Integer id, @PathVariable Integer userId) {
         log.info("FilmController. addLikeFilm. Ставим лайк фильму.");
-        filmService.addLikeFilm(id, userId);
-        return new ResponseEntity<>(filmService.getFilmById(id), HttpStatus.OK);
+        filmService.addLike(id, userId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public ResponseEntity<Film> deleteLikeFilm(@PathVariable Integer id, @PathVariable Integer userId) {
+    public ResponseEntity deleteLikeFilm(@PathVariable Integer id, @PathVariable Integer userId) {
         log.info("FilmController. deleteLikeFilm. Удаляем лайк у фильма.");
-        filmService.deleteLikeFilm(id, userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        filmService.deleteLike(id, userId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

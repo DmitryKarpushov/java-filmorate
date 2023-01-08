@@ -2,18 +2,17 @@ package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Дмитрий Карпушов 10.11.2022
  */
 @Data
 public class User {
+
     Integer id;
 
     @NotEmpty
@@ -30,32 +29,25 @@ public class User {
     @PastOrPresent
     LocalDate birthday;
 
-    Set<Integer> friends = new HashSet<>();
-
     public User(String email, String login, String name, LocalDate birthday) {
         this.email = email;
         this.login = login;
-        if (name == null || name.isEmpty() || name.isBlank()) {
+        if(name == null || name.isEmpty() || name.isBlank()){
             this.name = login;
-        } else {
+        } else{
             this.name = name;
         }
         this.birthday = birthday;
     }
 
-    public void addFriend(Integer idFriend) {
-        if (idFriend > 0) {
-            friends.add(idFriend);
-        } else {
-            throw new NotFoundException("Для добавления в друзья,должен быть положительный ID");
-        }
+    public Map<String, Object> toMap() {
+        Map<String, Object> values = new HashMap<>();
+        values.put("USER_EMAIL", email);
+        values.put("USER_LOGIN", login);
+        values.put("USER_NAME", name);
+        values.put("USER_BIRTHDAY", birthday);
+        return values;
     }
 
-    public void deleteFriend(Integer idFriend) {
-        if (idFriend > 0) {
-            friends.remove(idFriend);
-        } else {
-            throw new NotFoundException("Для удаления из друзей,должен быть положительный ID");
-        }
-    }
+
 }
