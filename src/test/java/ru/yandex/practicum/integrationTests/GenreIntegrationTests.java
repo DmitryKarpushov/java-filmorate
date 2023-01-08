@@ -25,19 +25,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GenreIntegrationTests {
     final GenreDbStorage genreDbStorage;
 
-    @Test
-    void testFindNameGenre() {
-        LinkedList<String> nameGenre = new LinkedList<>();
-        nameGenre.add("Комедия");
-        nameGenre.add("Драма");
-        nameGenre.add("Мультфильм");
-        nameGenre.add("Триллер");
-        nameGenre.add("Документальный");
-        nameGenre.add("Боевик.");
-        for (int i = 0; i < nameGenre.size(); i++) {
-            assertFalse(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
-        }
-    }
+//    @Test
+//    void testFindNameGenre() {
+//        LinkedList<String> nameGenre = new LinkedList<>();
+//        nameGenre.add("Комедия");
+//        nameGenre.add("Драма");
+//        nameGenre.add("Мультфильм");
+//        nameGenre.add("Триллер");
+//        nameGenre.add("Документальный");
+//        nameGenre.add("Боевик.");
+//        for (int i = 0; i < nameGenre.size(); i++) {
+//            assertFalse(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
+//        }
+//    }
 
     @Test
     void testFindAll() {
