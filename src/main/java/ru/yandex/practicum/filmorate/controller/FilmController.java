@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 
 /**
- * @author Дмитрий Карпушов 10.11.2022
+ * @author Дмитрий Карпушов 10.11.2022.
  */
 @Slf4j
 @RestController
