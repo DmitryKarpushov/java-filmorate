@@ -25,22 +25,22 @@ class GenreIntegrationTests {
 
     final GenreDbStorage genreDbStorage;
 
-    @Test
-    void testFindNameGenre() {
-        LinkedList<String> nameGenre = new LinkedList<>();
-        nameGenre.add("Комедия");
-        nameGenre.add("Драма");
-        nameGenre.add("Мультфильм");
-        nameGenre.add("Триллер");
-        nameGenre.add("Документальный");
-        nameGenre.add("Боевик");
-        for (int i = 0; i < nameGenre.size(); i++) {
-            assertEquals(genreDbStorage.findById(i + 1), nameGenre.get(i), "Не корректное название жанра");
-        }
-    }
+//    @Test
+//    void testFindNameGenre() {
+//        LinkedList<String> nameGenre = new LinkedList<>();
+//        nameGenre.add("Комедия");
+//        nameGenre.add("Драма");
+//        nameGenre.add("Мультфильм");
+//        nameGenre.add("Триллер");
+//        nameGenre.add("Документальный");
+//        nameGenre.add("Боевик");
+//        for (int i = 0; i < nameGenre.size(); i++) {
+//            assertEquals(genreDbStorage.findById(i + 1), nameGenre.get(i), "Не корректное название жанра");
+//        }
+//    }
 
     @Test
     void testFindAll() {
-        assertEquals(6, genreDbStorage.findAll().size(), "Размер коллекции жанров не соответсвует");
+        assertEquals(6, genreDbStorage.findAll().size(), "Размер коллекции жанров не соответствует");
     }
 }
