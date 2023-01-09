@@ -12,7 +12,7 @@ import ru.yandex.practicum.filmorate.dao.impl.MpaDbStorage;
 
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Дмитрий Карпушов 08.01.2023
@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class MpaIntegrationTests {
+
     final MpaDbStorage mpaDbStorage;
 
     @Test
@@ -33,12 +34,12 @@ class MpaIntegrationTests {
         nameMpa.add("R");
         nameMpa.add("NC-17");
         for (int i = 0; i < nameMpa.size(); i++) {
-            assertTrue(mpaDbStorage.findById(i + 1).equals(nameMpa.get(i)), "Не корректное название рейтинга");
+            assertEquals(mpaDbStorage.findById(i + 1), nameMpa.get(i), "Не корректное название рейтинга");
         }
     }
 
     @Test
     void testFindAll() {
-        assertTrue(mpaDbStorage.findAll().size() == 5, "Размер коллекции рейтингов MPA не соответсвует");
+        assertEquals(5, mpaDbStorage.findAll().size(), "Размер коллекции рейтингов MPA не соответсвует");
     }
 }

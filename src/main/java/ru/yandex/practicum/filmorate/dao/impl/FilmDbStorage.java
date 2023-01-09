@@ -62,12 +62,12 @@ public class FilmDbStorage implements FilmDb {
     }
 
     @Override
-    public Film findById(Integer id) {
+    public Optional<Film> findById(Integer id) {
         log.info("FilmDbStorage. findById.");
         String sqlQuery = "SELECT FILM_ID, FILM_NAME, MPA_ID, FILM_DESCRIPTION, FILM_RELEASE_DATE, FILM_DURATION, " +
                 "FILM_RATE, FILM_RATE_AND_LIKES " +
                 "FROM FILMS WHERE FILM_ID = ?";
-        return Optional.of(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id)).get();
+        return Optional.of(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id));
     }
 
     @Override
@@ -135,8 +135,9 @@ public class FilmDbStorage implements FilmDb {
         if (IdFilms.isEmpty()) {
             throw new NotFoundException("Список популярных фильмов пуст");
         }
-        for (Integer id : IdFilms) {
-            mostPopularFilms.add(findById(id));
+        for(Integer id : IdFilms){
+            mostPopularFilms.add(findById(id)
+                    .orElseThrow(() ->new NotFoundException("Фильм не найден.")));
         }
         return mostPopularFilms;
     }

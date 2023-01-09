@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.FilmorateApplication;
 import ru.yandex.practicum.filmorate.dao.impl.GenreDbStorage;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.LinkedList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Дмитрий Карпушов 08.01.2023
@@ -20,24 +22,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class GenreIntegrationTests {
+
     final GenreDbStorage genreDbStorage;
 
-//    @Test
-//    void testFindNameGenre() {
-//        LinkedList<String> nameGenre = new LinkedList<>();
-//        nameGenre.add("Комедия");
-//        nameGenre.add("Драма");
-//        nameGenre.add("Мультфильм");
-//        nameGenre.add("Триллер");
-//        nameGenre.add("Документальный");
-//        nameGenre.add("Боевик.");
-//        for (int i = 0; i < nameGenre.size(); i++) {
-//            assertFalse(genreDbStorage.findById(i + 1).equals(nameGenre.get(i)), "Не корректное название жанра");
-//        }
-//    }
+    @Test
+    void testFindNameGenre() {
+        LinkedList<String> nameGenre = new LinkedList<>();
+        nameGenre.add("Комедия");
+        nameGenre.add("Драма");
+        nameGenre.add("Мультфильм");
+        nameGenre.add("Триллер");
+        nameGenre.add("Документальный");
+        nameGenre.add("Боевик");
+        for (int i = 0; i < nameGenre.size(); i++) {
+            assertEquals(genreDbStorage.findById(i + 1), nameGenre.get(i), "Не корректное название жанра");
+        }
+    }
 
     @Test
     void testFindAll() {
-        assertTrue(genreDbStorage.findAll().size() == 6, "Размер коллекции жанров не соответсвует");
+        assertEquals(6, genreDbStorage.findAll().size(), "Размер коллекции жанров не соответсвует");
     }
 }

@@ -32,7 +32,7 @@ public class FilmService {
 
     public Film getById(Integer id) {
         if (id < 9900) {
-            return filmDbStorage.findById(id);
+            return filmDbStorage.findById(id).orElseThrow(()-> new NotFoundException("Фильм не найден"));
         } else {
             throw new NotFoundException("Пользователь не найден.");
         }

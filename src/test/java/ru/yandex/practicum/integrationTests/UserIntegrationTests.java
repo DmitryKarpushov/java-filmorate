@@ -16,9 +16,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * @author Дмитрий Карпушов 08.01.2023
@@ -34,15 +36,9 @@ class UserIntegrationTests {
     @BeforeEach
     void createdUserForDB() {
         if (userStorage.findAll().size() != 2) {
-            User firstTestUser = new User("testUserOne@yandex.ru",
-                    "UserOne",
-                    "Tester",
-                    LocalDate.parse("2000-01-01"));
+            User firstTestUser = new User("testUserOne@yandex.ru", "UserOne", "Tester", LocalDate.parse("2000-01-01"));
             userStorage.add(firstTestUser);
-            User SecondTestUser = new User("testUserTwo@yandex.ru",
-                    "UserTwo",
-                    "Toster",
-                    LocalDate.parse("2000-02-01"));
+            User SecondTestUser = new User("testUserTwo@yandex.ru", "UserTwo", "Toster", LocalDate.parse("2000-02-01"));
             userStorage.add(SecondTestUser);
         }
         userStorage.deleteFriends(1, 2);
@@ -57,7 +53,7 @@ class UserIntegrationTests {
     @Test
     void testFindAll() {
         List<User> currentList = userStorage.findAll();
-        assertTrue(currentList.size() == 2, "Не корректное количество пользователей");
+        assertEquals(2, currentList.size(), "Не корректное количество пользователей");
     }
 
     @Test
@@ -69,7 +65,7 @@ class UserIntegrationTests {
         updateUser.setId(1);
         userStorage.update(updateUser);
 
-        User user = userStorage.findById(1);
+        Optional<User> userStorageUser = userStorage.findById(1);
 
         Map<String, Object> mapForCheck = new HashMap<>();
         mapForCheck.put("id", updateUser.getId());
@@ -77,6 +73,14 @@ class UserIntegrationTests {
         mapForCheck.put("login", updateUser.getLogin());
         mapForCheck.put("name", updateUser.getName());
         mapForCheck.put("birthday", updateUser.getBirthday());
+
+        for (Map.Entry<String, Object> entry : mapForCheck.entrySet()) {
+            assertThat(userStorageUser)
+                    .isPresent()
+                    .hasValueSatisfying(user ->
+                            assertThat(user).hasFieldOrPropertyWithValue(entry.getKey(), entry.getValue())
+                    );
+        }
     }
 
     @Test
@@ -101,16 +105,21 @@ class UserIntegrationTests {
     void testFindAllFriends() {
         userStorage.addRequestsFriendship(1, 2);
         List<Integer> listFriendIdOne = userStorage.findAllFriends(1);
-        assertTrue(listFriendIdOne.size() == 1, "В списке друзей должен быть 1 друг");
-        assertTrue(listFriendIdOne.get(0) == 2, "Значение ID друга должно равнятся 2");
+        assertEquals(1, listFriendIdOne.size(), "В списке друзей должен быть 1 друг");
+        assertEquals(2, (int) listFriendIdOne.get(0), "Значение ID друга должно равнятся 2");
 
         List<Integer> listFriendIdTwo = userStorage.findAllFriends(2);
-        assertTrue(listFriendIdTwo.size() == 0, "В списке друзей НЕ должено быть друзей");
+        assertEquals(0, listFriendIdTwo.size(), "В списке друзей НЕ должено быть друзей");
 
     }
 
     void checkFindUserById(Integer idUser) {
-        User user = userStorage.findById(idUser);
+        Optional<User> userStorageById = userStorage.findById(idUser);
 
+        assertThat(userStorageById)
+                .isPresent()
+                .hasValueSatisfying(user ->
+                        assertThat(user).hasFieldOrPropertyWithValue("id", idUser)
+                );
     }
 }

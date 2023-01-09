@@ -3,6 +3,7 @@ package ru.yandex.practicum.integrationTests;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,10 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Дмитрий Карпушов 08.01.2023
@@ -31,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class FilmIntegrationTests {
+
     final FilmDbStorage filmDbStorage;
     final GenreDbStorage genreDbStorage;
     final UserDbStorage userStorage;
@@ -40,31 +44,24 @@ class FilmIntegrationTests {
         if (filmDbStorage.findAll().size() != 2) {
             List<Genre> genres = new ArrayList<>();
             genres.add(new Genre(2, genreDbStorage.findById(2)));
-            Film film = new Film("Достучатся до небес",
-                    "Немецкий кинофильм 1997 года режиссёра Томаса Яна",
-                    LocalDate.parse("1997-02-20"),
+            Film film = new Film("Достучатся до небес", "Немецкий кинофильм 1997 года режиссёра Томаса Яна", LocalDate.parse("1997-02-20"),
                     87L, 4, new Mpa(1, "G"), genres);
+
             filmDbStorage.add(film);
             filmDbStorage.setGenre(1, 2);
 
-            Film filmNext = new Film("Тестовая драмма",
-                    "Тестовый фильм",
-                    LocalDate.parse("2022-01-01"),
+            Film filmNext = new Film("Тестовая драмма", "Тестовый фильм", LocalDate.parse("2022-01-01"),
                     75L, 0, new Mpa(2, "PG"), genres);
-            filmDbStorage.add(filmNext);
 
+            filmDbStorage.add(filmNext);
             filmDbStorage.setGenre(2, 2);
         }
+
         if (userStorage.findAll().size() != 2) {
-            User firstTestUser = new User("testUserOne@yandex.ru",
-                    "UserOne",
-                    "Tester",
-                    LocalDate.parse("2000-01-01"));
+            User firstTestUser = new User("testUserOne@yandex.ru", "UserOne", "Tester", LocalDate.parse("2000-01-01"));
             userStorage.add(firstTestUser);
-            User SecondTestUser = new User("testUserTwo@yandex.ru",
-                    "UserTwo",
-                    "Toster",
-                    LocalDate.parse("2000-02-01"));
+
+            User SecondTestUser = new User("testUserTwo@yandex.ru", "UserTwo", "Toster", LocalDate.parse("2000-02-01"));
             userStorage.add(SecondTestUser);
         }
     }
@@ -79,16 +76,18 @@ class FilmIntegrationTests {
     void testUpgradeFilm() {
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(2, genreDbStorage.findById(2)));
-        Film updateFilm = new Film("Достучатся до небес",
-                "updateTest",
-                LocalDate.parse("1997-02-20"),
-                87L, 4, new Mpa(1, "G"), genres);
+        Film updateFilm = new Film("Достучатся до небес", "updateTest", LocalDate.parse("1997-02-20"), 87L, 4, new Mpa(1, "G"), genres);
         updateFilm.setId(1);
 
         filmDbStorage.update(updateFilm);
 
-        Film film = filmDbStorage.findById(1);
+        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
 
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("description", "updateTest")
+                );
     }
 
     @Test
@@ -99,8 +98,7 @@ class FilmIntegrationTests {
     @Test
     void testFindAll() {
         List<Film> current = filmDbStorage.findAll();
-        System.out.println(current.size());
-        assertTrue(current.size() == 2, "Не корректное количество фильмов");
+        Assertions.assertEquals(2, current.size(), "Не корректное количество фильмов");
     }
 
     @Test
@@ -109,7 +107,14 @@ class FilmIntegrationTests {
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(2, genreDbStorage.findById(2)));
         genres.add(new Genre(1, genreDbStorage.findById(1)));
-        Film film= filmDbStorage.findById(1);
+
+        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
+
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("genres", genres)
+                );
 
         filmDbStorage.deleteGenre(1, 1);
     }
@@ -118,7 +123,13 @@ class FilmIntegrationTests {
     void testDeleteGenreFilm() {
         assertTrue(filmDbStorage.deleteGenre(2, 2), "Жанр фильма не изменился");
         List<Genre> genres = new ArrayList<>();
-        Film film = filmDbStorage.findById(2);
+        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(2);
+
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("genres", genres)
+                );
 
         filmDbStorage.setGenre(2, 2);
     }
@@ -126,7 +137,13 @@ class FilmIntegrationTests {
     @Test
     void testGetGenresFilm() {
         List<Genre> genre = filmDbStorage.getGenres(1);
-        Film film = filmDbStorage.findById(1);
+        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
+
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("genres", genre)
+                );
 
     }
 
@@ -146,18 +163,34 @@ class FilmIntegrationTests {
     void testListMostPopularFilms() {
         filmDbStorage.addLike(1, 1);
         List<Film> films = filmDbStorage.mostPopulars(1);
-        assertTrue(films.size() == 1, "Размер списка фильмов не соответсвует");
-        Film film = filmDbStorage.findById(1);
+        Assertions.assertEquals(1, films.size(), "Размер списка фильмов не соответсвует");
+        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
 
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("rateAndLikes", film.getRating() + 1)
+                );
 
         films = filmDbStorage.mostPopulars(2);
-        assertTrue(films.size() == 2, "Размер списка фильмов не соответсвует");
-        film = filmDbStorage.findById(2);
+        Assertions.assertEquals(2, films.size(), "Размер списка фильмов не соответсвует");
+        filmDbStorageFilm = filmDbStorage.findById(2);
 
+        assertThat(filmDbStorageFilm)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("rateAndLikes", film.getRating())
+                );
     }
 
     void checkFindFilmById(Integer idFilm) {
-        Film film = filmDbStorage.findById(idFilm);
+        Optional<Film> filmOptional = filmDbStorage.findById(idFilm);
+
+        assertThat(filmOptional)
+                .isPresent()
+                .hasValueSatisfying(film ->
+                        assertThat(film).hasFieldOrPropertyWithValue("id", idFilm)
+                );
 
     }
 }

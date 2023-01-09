@@ -5,6 +5,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Дмитрий Карпушов 06.01.2023
@@ -16,7 +17,7 @@ public interface FilmDb {
 
     void update(Film film);
 
-    Film findById(Integer id);
+    Optional<Film> findById(Integer id);
 
     List<Film> findAll();
 
