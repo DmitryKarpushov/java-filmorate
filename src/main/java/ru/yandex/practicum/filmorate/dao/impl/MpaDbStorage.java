@@ -35,6 +35,7 @@ public class MpaDbStorage implements MpaDb {
         if (names.size() != 1) {
             throw new NotFoundException("Не корректный ID MPA");
         }
+
         return names.get(0);
     }
 
@@ -42,11 +43,13 @@ public class MpaDbStorage implements MpaDb {
     public List<Mpa> findAll() {
         log.info("MpaDbStorage. findAll.");
         String sqlQuery = "SELECT MPA_ID, MPA_NAME FROM MPA";
+
         return jdbcTemplate.query(sqlQuery, this::mapRowToMpa);
     }
 
     private Mpa mapRowToMpa(ResultSet resultSet, int rowNum) throws SQLException {
         log.info("MpaDbStorage. mapRowToMpa.");
+
         return new Mpa(resultSet.getInt("MPA_ID")
                 , resultSet.getString("MPA_NAME"));
     }

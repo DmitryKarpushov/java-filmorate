@@ -30,6 +30,7 @@ public class UserDbStorage implements UserDb {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("USERS")
                 .usingGeneratedKeyColumns("USER_ID");
+
         return simpleJdbcInsert.executeAndReturnKey(user.toMap()).intValue();
     }
 
@@ -50,12 +51,14 @@ public class UserDbStorage implements UserDb {
     public Optional<User> findById(Integer id) {
         String sqlQuery = "SELECT USER_ID, USER_EMAIL, USER_LOGIN, USER_NAME, USER_BIRTHDAY " +
                 "FROM USERS WHERE USER_ID = ?";
+
         return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id));
     }
 
     @Override
     public List<User> findAll() {
         String sqlQuery = "SELECT USER_ID, USER_EMAIL, USER_LOGIN, USER_NAME, USER_BIRTHDAY FROM USERS";
+
         return jdbcTemplate.query(sqlQuery, this::mapRowToUser);
     }
 
@@ -70,6 +73,7 @@ public class UserDbStorage implements UserDb {
                     .usingColumns("SENDER_ID", "RECIPIENT_ID");
             return simpleJdbcInsert.execute(map) == 1;
         }
+
         return false;
     }
 
@@ -78,6 +82,7 @@ public class UserDbStorage implements UserDb {
         String sqlQuery = String.format("SELECT RECIPIENT_ID AS friends\n" +
                 "FROM FRIENDSHIP_REQUESTS\n" +
                 "WHERE SENDER_ID = %d", idUser, idUser);
+
         return jdbcTemplate.queryForList(sqlQuery, Integer.class);
     }
 
@@ -86,6 +91,7 @@ public class UserDbStorage implements UserDb {
         String sqlQuery = String.format("DELETE\n" +
                 "FROM FRIENDSHIP_REQUESTS\n" +
                 "WHERE SENDER_ID = %d AND RECIPIENT_ID = %d", idUser, idFriend);
+
         return jdbcTemplate.update(sqlQuery) > 0;
     }
 
@@ -94,6 +100,7 @@ public class UserDbStorage implements UserDb {
                 "FROM FRIENDSHIP_REQUESTS\n" +
                 "WHERE (SENDER_ID = %d OR RECIPIENT_ID = %d)" +
                 " AND (SENDER_ID = %d OR RECIPIENT_ID = %d)", firstId, firstId, secondId, secondId);
+
         return jdbcTemplate.queryForObject(sqlQuery, Integer.class) == 1;
     }
 
@@ -103,6 +110,7 @@ public class UserDbStorage implements UserDb {
                 , resultSet.getString("USER_NAME")
                 , resultSet.getDate("USER_BIRTHDAY").toLocalDate());
         user.setId(resultSet.getInt("USER_ID"));
+
         return user;
     }
 }

@@ -35,6 +35,7 @@ public class GenreDbStorage implements GenreDb {
         if (names.size() != 1) {
             throw new NotFoundException("Не корректный ID GENRE");
         }
+
         return names.get(0);
     }
 
@@ -42,6 +43,7 @@ public class GenreDbStorage implements GenreDb {
     public List<Genre> findAll() {
         log.info("GenreDbStorage. findAll.");
         String sqlQuery = "SELECT GENRE_ID, GENRE_NAME FROM GENRE";
+
         return jdbcTemplate.query(sqlQuery, this::mapRowToGenre);
     }
 
