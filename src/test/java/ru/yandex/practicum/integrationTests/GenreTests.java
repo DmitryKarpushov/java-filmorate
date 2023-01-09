@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.yandex.practicum.filmorate.FilmorateApplication;
 import ru.yandex.practicum.filmorate.dao.impl.GenreDbStorage;
 
-import java.util.LinkedList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -20,8 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-class GenreIntegrationTests {
+class GenreTests {
 
     final GenreDbStorage genreDbStorage;
 

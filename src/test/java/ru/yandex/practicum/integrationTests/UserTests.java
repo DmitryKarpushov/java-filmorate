@@ -28,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-class UserIntegrationTests {
+class UserTests {
 
     final UserDbStorage userStorage;
 

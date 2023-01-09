@@ -20,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-class MpaIntegrationTests {
+class MpaTests {
 
     final MpaDbStorage mpaDbStorage;
 

@@ -32,8 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
-class FilmIntegrationTests {
+class FilmTests {
 
     final FilmDbStorage filmDbStorage;
     final GenreDbStorage genreDbStorage;
