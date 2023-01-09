@@ -18,58 +18,58 @@ import java.util.Set;
  */
 @AutoConfigureTestDatabase
 public class FilmTest {
-//    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//    private final Validator validator = factory.getValidator();
-//
-//
-//    @Test
-//    @DisplayName("1) Проверка валидации. Передаем верно-заполненный объект. correctlyLoginUserTest")
-//    void correctlyFieldFilmTest() {
-//        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), 160L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        Assertions.assertTrue(violations.isEmpty(), "Заполнено все верно");
-//    }
-//
-//    @Test
-//    @DisplayName("2) Проверка валидации. Название фильма не может быть пустым")
-//    void correctlyNameFilmTest() {
-//        final Film film = new Film( "", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), 160L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        Assertions.assertFalse(violations.isEmpty(), "Пустое название фильма");
-//    }
-//
-//    @Test
-//    @DisplayName("3) Проверка валидации. Описание max=200, в примере 201")
-//    void correctlyDescriptionFilmTest() {
-//        final Film film = new Film( "Титаник", "_________________________________________" +
-//                "________________________________________________________________________________________" +
-//                "________________________________________________________________________", LocalDate.of(2000, 11, 14), 160L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        Assertions.assertFalse(violations.isEmpty(), "Описание более 200 символов");
-//    }
-//
-//    @Test
-//    @DisplayName("4) Проверка валидации. Продолжительность фильмов должна быть больше 0")
-//    void correctlyDurationFilmTest() {
-//        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), -5L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        Assertions.assertFalse(violations.isEmpty(), "Продолжительность фильмов должна быть больше 0");
-//    }
-//
-//    @Test
-//    @DisplayName("5) Проверка валидации. Проверка даты на 1895-12-28")
-//    void correctlyDateFilmTestFirst() {
-//        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(1985, 12, 27), 100L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        System.out.println(violations);
-//        Assertions.assertTrue(violations.isEmpty(), "Фильм не раньше 1895-12-28");
-//    }
-//
-//    @Test
-//    @DisplayName("6) Проверка валидации. Проверка даты на 1895-12-28")
-//    void correctlyDateFilmTestSecond() {
-//        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(1795, 12, 27), 100L,5);
-//        Set<ConstraintViolation<Film>> violations = validator.validate(film);
-//        Assertions.assertFalse(violations.isEmpty(), "Фильм раньше 1895-12-28");
-//    }
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private final Validator validator = factory.getValidator();
+
+
+    @Test
+    @DisplayName("1) Проверка валидации. Передаем верно-заполненный объект. correctlyLoginUserTest")
+    void correctlyFieldFilmTest() {
+        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), 160L,null,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertTrue(violations.isEmpty(), "Заполнено все верно");
+    }
+
+    @Test
+    @DisplayName("2) Проверка валидации. Название фильма не может быть пустым")
+    void correctlyNameFilmTest() {
+        final Film film = new Film( "", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), 160L,5,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertFalse(violations.isEmpty(), "Пустое название фильма");
+    }
+
+    @Test
+    @DisplayName("3) Проверка валидации. Описание max=200, в примере 201")
+    void correctlyDescriptionFilmTest() {
+        final Film film = new Film( "Титаник", "_________________________________________" +
+                "________________________________________________________________________________________" +
+                "________________________________________________________________________", LocalDate.of(2000, 11, 14), 160L,5,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertFalse(violations.isEmpty(), "Описание более 200 символов");
+    }
+
+    @Test
+    @DisplayName("4) Проверка валидации. Продолжительность фильмов должна быть больше 0")
+    void correctlyDurationFilmTest() {
+        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(2000, 11, 14), -5L,5,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertFalse(violations.isEmpty(), "Продолжительность фильмов должна быть больше 0");
+    }
+
+    @Test
+    @DisplayName("5) Проверка валидации. Проверка даты на 1895-12-28")
+    void correctlyDateFilmTestFirst() {
+        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(1985, 12, 27), 100L,5,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        System.out.println(violations);
+        Assertions.assertTrue(violations.isEmpty(), "Фильм не раньше 1895-12-28");
+    }
+
+    @Test
+    @DisplayName("6) Проверка валидации. Проверка даты на 1895-12-28")
+    void correctlyDateFilmTestSecond() {
+        final Film film = new Film( "Титаник", "Корабль женщина смерть", LocalDate.of(1795, 12, 27), 100L,5,null,null);
+        Set<ConstraintViolation<Film>> violations = validator.validate(film);
+        Assertions.assertFalse(violations.isEmpty(), "Фильм раньше 1895-12-28");
+    }
 }
