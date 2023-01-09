@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Дмитрий Карпушов 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
+@AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class FilmIntegrationTests {
