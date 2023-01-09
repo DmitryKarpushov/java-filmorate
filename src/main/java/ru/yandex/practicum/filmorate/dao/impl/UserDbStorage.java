@@ -47,10 +47,10 @@ public class UserDbStorage implements UserDb {
     }
 
     @Override
-    public User findById(Integer id) {
+    public Optional<User> findById(Integer id) {
         String sqlQuery = "SELECT USER_ID, USER_EMAIL, USER_LOGIN, USER_NAME, USER_BIRTHDAY " +
                 "FROM USERS WHERE USER_ID = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id)).get();
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, this::mapRowToUser, id));
     }
 
     @Override

@@ -75,7 +75,7 @@ public class UserService {
 
     public User getById(Integer id) {
         if (id < 1000 && id > 0) {
-            return userDbStorage.findById(id);
+            return userDbStorage.findById(id).orElseThrow(()->new NotFoundException("Такого пользователя нет"));
         } else {
             throw new NotFoundException("Пользователь не найден.");
         }

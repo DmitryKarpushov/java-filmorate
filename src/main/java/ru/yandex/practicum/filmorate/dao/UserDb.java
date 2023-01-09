@@ -15,7 +15,7 @@ public interface UserDb {
 
     void update(User user);
 
-    User findById(Integer id);
+    Optional<User> findById(Integer id);
 
     List<User> findAll();
 
