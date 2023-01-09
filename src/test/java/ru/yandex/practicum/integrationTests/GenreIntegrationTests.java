@@ -18,26 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Дмитрий Карпушов 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
-@AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class GenreIntegrationTests {
 
     final GenreDbStorage genreDbStorage;
-
-//    @Test
-//    void testFindNameGenre() {
-//        LinkedList<String> nameGenre = new LinkedList<>();
-//        nameGenre.add("Комедия");
-//        nameGenre.add("Драма");
-//        nameGenre.add("Мультфильм");
-//        nameGenre.add("Триллер");
-//        nameGenre.add("Документальный");
-//        nameGenre.add("Боевик");
-//        for (int i = 0; i < nameGenre.size(); i++) {
-//            assertEquals(genreDbStorage.findById(i + 1), nameGenre.get(i), "Не корректное название жанра");
-//        }
-//    }
 
     @Test
     void testFindAll() {
