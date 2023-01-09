@@ -13,7 +13,7 @@ import ru.yandex.practicum.filmorate.dao.impl.GenreDbStorage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 08.01.2023
+ * @author Дмитрий Карпушов 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
@@ -24,6 +24,6 @@ class GenreTests {
 
     @Test
     void testFindAll() {
-        assertEquals(6, genreDbStorage.findAll().size(), "Р Р°Р·РјРµСЂ РєРѕР»Р»РµРєС†РёРё Р¶Р°РЅСЂРѕРІ РЅРµ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚");
+        assertEquals(6, genreDbStorage.findAll().size(), "Размер коллекции жанров не соответствует");
     }
 }

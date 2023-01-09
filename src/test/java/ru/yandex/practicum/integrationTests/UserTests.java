@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 08.01.2023
+ * @author Дмитрий Карпушов 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
@@ -52,7 +52,7 @@ class UserTests {
     @Test
     void testFindAll() {
         List<User> currentList = userStorage.findAll();
-        assertEquals(2, currentList.size(), "РќРµ РєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№");
+        assertEquals(2, currentList.size(), "Не корректное количество пользователей");
     }
 
     @Test
@@ -89,26 +89,26 @@ class UserTests {
 
     @Test
     void testAddRequestsFriendship() {
-        assertTrue(userStorage.addRequestsFriendship(1, 2), "Р—Р°РїСЂРѕСЃ РЅР° РґСЂСѓР¶Р±Сѓ РЅРµ РѕС‚РїСЂР°РІР»РµРЅ");
-        assertFalse(userStorage.addRequestsFriendship(1, 2), "Р—Р°РїСЂРѕСЃ РЅР° РґСЂСѓР¶Р±Сѓ РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚РїСЂР°РІР»РµРЅ");
+        assertTrue(userStorage.addRequestsFriendship(1, 2), "Запрос на дружбу не отправлен");
+        assertFalse(userStorage.addRequestsFriendship(1, 2), "Запрос на дружбу не должен быть отправлен");
     }
 
     @Test
     void testDeleteFriends() {
         userStorage.addRequestsFriendship(1, 2);
-        assertTrue(userStorage.deleteFriends(1, 2), "Р—Р°РїСЂРѕСЃ РЅР° РґСЂСѓР¶Р±Сѓ РЅРµ СѓРґР°Р»РµРЅ");
-        assertFalse(userStorage.deleteFriends(1, 2), "Р—Р°РїСЂРѕСЃ РЅР° РґСЂСѓР¶Р±Сѓ РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ СѓРґР°Р»РµРЅ");
+        assertTrue(userStorage.deleteFriends(1, 2), "Запрос на дружбу не удален");
+        assertFalse(userStorage.deleteFriends(1, 2), "Запрос на дружбу не должен быть удален");
     }
 
     @Test
     void testFindAllFriends() {
         userStorage.addRequestsFriendship(1, 2);
         List<Integer> listFriendIdOne = userStorage.findAllFriends(1);
-        assertEquals(1, listFriendIdOne.size(), "Р’ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ 1 РґСЂСѓРі");
-        assertEquals(2, (int) listFriendIdOne.get(0), "Р—РЅР°С‡РµРЅРёРµ ID РґСЂСѓРіР° РґРѕР»Р¶РЅРѕ СЂР°РІРЅСЏС‚СЃСЏ 2");
+        assertEquals(1, listFriendIdOne.size(), "В списке друзей должен быть 1 друг");
+        assertEquals(2, (int) listFriendIdOne.get(0), "Значение ID друга должно равнятся 2");
 
         List<Integer> listFriendIdTwo = userStorage.findAllFriends(2);
-        assertEquals(0, listFriendIdTwo.size(), "Р’ СЃРїРёСЃРєРµ РґСЂСѓР·РµР№ РќР• РґРѕР»Р¶РµРЅРѕ Р±С‹С‚СЊ РґСЂСѓР·РµР№");
+        assertEquals(0, listFriendIdTwo.size(), "В списке друзей НЕ должено быть друзей");
 
     }
 

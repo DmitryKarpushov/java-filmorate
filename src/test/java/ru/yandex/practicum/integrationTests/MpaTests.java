@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 08.01.2023
+ * @author Дмитрий Карпушов 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
@@ -33,12 +33,12 @@ class MpaTests {
         nameMpa.add("R");
         nameMpa.add("NC-17");
         for (int i = 0; i < nameMpa.size(); i++) {
-            assertEquals(mpaDbStorage.findById(i + 1), nameMpa.get(i), "РќРµ РєРѕСЂСЂРµРєС‚РЅРѕРµ РЅР°Р·РІР°РЅРёРµ СЂРµР№С‚РёРЅРіР°");
+            assertEquals(mpaDbStorage.findById(i + 1), nameMpa.get(i), "Не корректное название рейтинга");
         }
     }
 
     @Test
     void testFindAll() {
-        assertEquals(5, mpaDbStorage.findAll().size(), "Р Р°Р·РјРµСЂ РєРѕР»Р»РµРєС†РёРё СЂРµР№С‚РёРЅРіРѕРІ MPA РЅРµ СЃРѕРѕС‚РІРµС‚СЃРІСѓРµС‚");
+        assertEquals(5, mpaDbStorage.findAll().size(), "Размер коллекции рейтингов MPA не соответсвует");
     }
 }
