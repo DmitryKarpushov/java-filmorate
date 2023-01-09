@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.*;
@@ -19,6 +20,7 @@ import java.util.Set;
 /**
  * @author Дмитрий Карпушов 12.11.2022
  */
+@AutoConfigureTestDatabase
 public class UserTest {
 //    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 //    private final Validator validator = factory.getValidator();

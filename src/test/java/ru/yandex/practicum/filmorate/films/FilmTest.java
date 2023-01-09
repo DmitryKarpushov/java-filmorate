@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.films;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import javax.validation.ConstraintViolation;
@@ -15,6 +16,7 @@ import java.util.Set;
 /**
  * @author Дмитрий Карпушов 13.11.2022
  */
+@AutoConfigureTestDatabase
 public class FilmTest {
 //    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 //    private final Validator validator = factory.getValidator();
