@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author Дмитрий Карпушов 08.01.2023
+ * @author Р”РјРёС‚СЂРёР№ РљР°СЂРїСѓС€РѕРІ 08.01.2023
  */
 @SpringBootTest(classes = FilmorateApplication.class)
 @AutoConfigureTestDatabase
@@ -43,13 +43,13 @@ class FilmTests {
         if (filmDbStorage.findAll().size() != 2) {
             List<Genre> genres = new ArrayList<>();
             genres.add(new Genre(2, genreDbStorage.findById(2)));
-            Film film = new Film("Достучатся до небес", "Немецкий кинофильм 1997 года режиссёра Томаса Яна", LocalDate.parse("1997-02-20"),
+            Film film = new Film("Р”РѕСЃС‚СѓС‡Р°С‚СЃСЏ РґРѕ РЅРµР±РµСЃ", "РќРµРјРµС†РєРёР№ РєРёРЅРѕС„РёР»СЊРј 1997 РіРѕРґР° СЂРµР¶РёСЃСЃС‘СЂР° РўРѕРјР°СЃР° РЇРЅР°", LocalDate.parse("1997-02-20"),
                     87L, 4, new Mpa(1, "G"), genres);
 
             filmDbStorage.add(film);
             filmDbStorage.setGenre(1, 2);
 
-            Film filmNext = new Film("Тестовая драмма", "Тестовый фильм", LocalDate.parse("2022-01-01"),
+            Film filmNext = new Film("РўРµСЃС‚РѕРІР°СЏ РґСЂР°РјРјР°", "РўРµСЃС‚РѕРІС‹Р№ С„РёР»СЊРј", LocalDate.parse("2022-01-01"),
                     75L, 0, new Mpa(2, "PG"), genres);
 
             filmDbStorage.add(filmNext);
@@ -75,7 +75,7 @@ class FilmTests {
     void testUpgradeFilm() {
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(2, genreDbStorage.findById(2)));
-        Film updateFilm = new Film("Достучатся до небес", "updateTest", LocalDate.parse("1997-02-20"), 87L, 4, new Mpa(1, "G"), genres);
+        Film updateFilm = new Film("Р”РѕСЃС‚СѓС‡Р°С‚СЃСЏ РґРѕ РЅРµР±РµСЃ", "updateTest", LocalDate.parse("1997-02-20"), 87L, 4, new Mpa(1, "G"), genres);
         updateFilm.setId(1);
 
         filmDbStorage.update(updateFilm);
@@ -97,12 +97,12 @@ class FilmTests {
     @Test
     void testFindAll() {
         List<Film> current = filmDbStorage.findAll();
-        Assertions.assertEquals(2, current.size(), "Не корректное количество фильмов");
+        Assertions.assertEquals(2, current.size(), "РќРµ РєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ С„РёР»СЊРјРѕРІ");
     }
 
     @Test
     void testSetGenreFilm() {
-        assertTrue(filmDbStorage.setGenre(1, 1), "Жанр фильма не изменился");
+        assertTrue(filmDbStorage.setGenre(1, 1), "Р–Р°РЅСЂ С„РёР»СЊРјР° РЅРµ РёР·РјРµРЅРёР»СЃСЏ");
         List<Genre> genres = new ArrayList<>();
         genres.add(new Genre(2, genreDbStorage.findById(2)));
         genres.add(new Genre(1, genreDbStorage.findById(1)));
@@ -120,7 +120,7 @@ class FilmTests {
 
     @Test
     void testDeleteGenreFilm() {
-        assertTrue(filmDbStorage.deleteGenre(2, 2), "Жанр фильма не изменился");
+        assertTrue(filmDbStorage.deleteGenre(2, 2), "Р–Р°РЅСЂ С„РёР»СЊРјР° РЅРµ РёР·РјРµРЅРёР»СЃСЏ");
         List<Genre> genres = new ArrayList<>();
         Optional<Film> filmDbStorageFilm = filmDbStorage.findById(2);
 
@@ -148,21 +148,21 @@ class FilmTests {
 
     @Test
     void testAddLikeFilm() {
-        assertTrue(filmDbStorage.addLike(1, 1), "пользователь не лайкнул фильм");
+        assertTrue(filmDbStorage.addLike(1, 1), "РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р»Р°Р№РєРЅСѓР» С„РёР»СЊРј");
         filmDbStorage.deleteLike(1, 1);
     }
 
     @Test
     void testDeleteLike() {
         filmDbStorage.addLike(1, 1);
-        assertTrue(filmDbStorage.deleteLike(1, 1), "Лайк не удален");
+        assertTrue(filmDbStorage.deleteLike(1, 1), "Р›Р°Р№Рє РЅРµ СѓРґР°Р»РµРЅ");
     }
 
     @Test
     void testListMostPopularFilms() {
         filmDbStorage.addLike(1, 1);
         List<Film> films = filmDbStorage.mostPopulars(1);
-        Assertions.assertEquals(1, films.size(), "Размер списка фильмов не соответсвует");
+        Assertions.assertEquals(1, films.size(), "Р Р°Р·РјРµСЂ СЃРїРёСЃРєР° С„РёР»СЊРјРѕРІ РЅРµ СЃРѕРѕС‚РІРµС‚СЃРІСѓРµС‚");
         Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
 
         assertThat(filmDbStorageFilm)
@@ -172,7 +172,7 @@ class FilmTests {
                 );
 
         films = filmDbStorage.mostPopulars(2);
-        Assertions.assertEquals(2, films.size(), "Размер списка фильмов не соответсвует");
+        Assertions.assertEquals(2, films.size(), "Р Р°Р·РјРµСЂ СЃРїРёСЃРєР° С„РёР»СЊРјРѕРІ РЅРµ СЃРѕРѕС‚РІРµС‚СЃРІСѓРµС‚");
         filmDbStorageFilm = filmDbStorage.findById(2);
 
         assertThat(filmDbStorageFilm)

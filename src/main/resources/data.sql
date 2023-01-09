@@ -10,14 +10,14 @@ INSERT INTO MPA (MPA_ID, MPA_NAME)
 VALUES (5, 'NC-17');
 
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (1, 'Комедия');
+VALUES (1, 'РљРѕРјРµРґРёСЏ');
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (2, 'Драма');
+VALUES (2, 'Р”СЂР°РјР°');
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (3, 'Мультфильм');
+VALUES (3, 'РњСѓР»СЊС‚С„РёР»СЊРј');
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (4, 'Триллер');
+VALUES (4, 'РўСЂРёР»Р»РµСЂ');
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (5, 'Документальный');
+VALUES (5, 'Р”РѕРєСѓРјРµРЅС‚Р°Р»СЊРЅС‹Р№');
 INSERT INTO GENRE (GENRE_ID, GENRE_NAME)
-VALUES (6, 'Боевик');
+VALUES (6, 'Р‘РѕРµРІРёРє');
