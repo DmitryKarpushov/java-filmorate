@@ -11,7 +11,6 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.GenreService;
-import ru.yandex.practicum.filmorate.service.MpaService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,13 +26,11 @@ import java.util.Optional;
 public class FilmDbStorage implements FilmDb {
 
     private final JdbcTemplate jdbcTemplate;
-    private final MpaService mpaService;
     private final GenreService genreService;
 
     @Autowired
-    public FilmDbStorage(JdbcTemplate jdbcTemplate, MpaService mpaService, GenreService genreService) {
+    public FilmDbStorage(JdbcTemplate jdbcTemplate, GenreService genreService) {
         this.jdbcTemplate = jdbcTemplate;
-        this.mpaService = mpaService;
         this.genreService = genreService;
     }
 
@@ -66,20 +63,22 @@ public class FilmDbStorage implements FilmDb {
     @Override
     public Optional<Film> findById(Integer id) {
         log.info("FilmDbStorage. findById id: {}", id);
-        String sqlQuery = "SELECT FILMS.FILM_ID, FILMS.FILM_NAME, FILMS.FILM_DESCRIPTION, " +
-                "FILMS.FILM_RELEASE_DATE, FILMS.FILM_DURATION, FILMS.FILM_RATE, FILMS.FILM_RATE_AND_LIKES,  " +
-                "FILMS.MPA_ID, MPA.MPA_NAME" +
-                "                FROM FILMS JOIN MPA ON FILMS.MPA_ID = MPA.MPA_ID WHERE FILMS.FILM_ID = ?";
+        String sqlQuery = "SELECT FILMS.FILM_ID, FILMS.FILM_NAME, FILMS.FILM_DESCRIPTION," +
+                "FILMS.FILM_RELEASE_DATE, FILMS.FILM_DURATION, FILMS.FILM_RATE, FILMS.FILM_RATE_AND_LIKES, " +
+                "FILMS.MPA_ID, MPA.MPA_NAME " +
+                "                FROM FILMS JOIN MPA ON FILMS.MPA_ID = MPA.MPA_ID WHERE FILMS.FILM_ID = ? ";
         var result = jdbcTemplate.queryForObject(sqlQuery, this::mapRowToFilm, id);
+
         return Optional.of(result);
     }
 
     @Override
     public List<Film> findAll() {
         log.info("FilmDbStorage. findAll.");
-        String sqlQuery = "SELECT FILMS.FILM_ID,FILMS.FILM_NAME ,FILMS.MPA_ID ,FILMS.FILM_DESCRIPTION ,FILMS.FILM_RELEASE_DATE ,FILMS.FILM_DURATION ," +
-                "       FILMS.FILM_RATE,  FILMS.FILM_RATE_AND_LIKES, MPA.MPA_ID, MPA.MPA_NAME\n" +
-                " FROM FILMS JOIN MPA ON FILMS.MPA_ID = MPA.MPA_ID";
+        String sqlQuery = "SELECT FILMS.FILM_ID,FILMS.FILM_NAME ,FILMS.MPA_ID ,FILMS.FILM_DESCRIPTION ,FILMS.FILM_RELEASE_DATE ,FILMS.FILM_DURATION , " +
+                "       FILMS.FILM_RATE,  FILMS.FILM_RATE_AND_LIKES, MPA.MPA_ID, MPA.MPA_NAME " +
+                " FROM FILMS JOIN MPA ON FILMS.MPA_ID = MPA.MPA_ID ";
+
         return jdbcTemplate.query(sqlQuery, this::mapRowToFilm);
     }
 
@@ -162,12 +161,15 @@ public class FilmDbStorage implements FilmDb {
 
     @Override
     public List<Genre> getGenres(Integer idFilm) {
+        log.info("FilmDbStorage. getGenres. idFilm: {}", idFilm);
         String sqlQuery = String.format("SELECT GENRE_ID\n" +
                 "FROM FILM_TO_GENRE\n" +
                 "WHERE FILM_ID = %d", idFilm);
         List<Integer> idGenres = jdbcTemplate.queryForList(sqlQuery, Integer.class);
         List<Genre> genres = new ArrayList<>();
+        System.out.println("idGenres = " + idGenres);
         for (Integer id : idGenres) {
+            System.out.println("id = " + id);
             genres.add(genreService.getById(id));
         }
 
@@ -208,10 +210,9 @@ public class FilmDbStorage implements FilmDb {
                 , resultSet.getDate("FILM_RELEASE_DATE").toLocalDate()
                 , resultSet.getLong("FILM_DURATION")
                 , resultSet.getInt("FILM_RATE")
-                , new Mpa(resultSet.getInt("MPA_ID"), resultSet.getString("MPA_NAME"))
+                , new Mpa(resultSet.getInt("MPA_ID") , resultSet.getString("MPA_NAME"))
                 , new ArrayList<>());
         film.setId(resultSet.getInt("FILM_ID"));
-        film.setMpa(mpaService.getById(film.getMpa().getId()));
         film.setGenres(getGenres(film.getId()));
         film.setRateAndLikes(getRateAndLikeFilm(film.getId()));
 
