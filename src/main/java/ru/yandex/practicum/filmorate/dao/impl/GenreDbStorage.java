@@ -43,7 +43,7 @@ public class GenreDbStorage implements GenreDb {
 
     @Override
     public List<Genre> getGenres(Integer idFilm) {
-        log.info("FilmDbStorage. getGenres. idFilm: {}", idFilm);
+        log.info("FilmDbStorage. getGenres");
         String sqlQuery = String.format("SELECT GENRE_ID\n" +
                 "FROM FILM_TO_GENRE\n" +
                 "WHERE FILM_ID = %d", idFilm);
