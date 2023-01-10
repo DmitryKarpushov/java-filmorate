@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dao.FilmDb;
+import ru.yandex.practicum.filmorate.dao.GenreDb;
 import ru.yandex.practicum.filmorate.dao.UserDb;
 import ru.yandex.practicum.filmorate.dao.impl.FilmDbStorage;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
@@ -20,19 +21,20 @@ public class FilmService {
     final FilmDb filmDbStorage;
     final MpaService mpaService;
     final GenreService genreService;
-    final UserDb userDbStorage;
 
     @Autowired
-    public FilmService(FilmDbStorage filmDbStorage, MpaService mpaService, GenreService genreService, UserDb userDbStorage) {
+    public FilmService(FilmDb filmDbStorage, MpaService mpaService,
+                       GenreService genreService) {
         this.filmDbStorage = filmDbStorage;
         this.mpaService = mpaService;
         this.genreService = genreService;
-        this.userDbStorage = userDbStorage;
     }
 
     public Film getById(Integer id) {
         if (id < 9900) {
-            return filmDbStorage.findById(id).orElseThrow(()-> new NotFoundException("Фильм не найден"));
+            var result = filmDbStorage.findById(id).orElseThrow(() -> new NotFoundException("Фильм не найден"));
+            result.setGenres(genreService.getGenresId(result.getId()));
+            return result;
         } else {
             throw new NotFoundException("Пользователь не найден.");
         }
@@ -52,6 +54,7 @@ public class FilmService {
         return film;
     }
 
+
     public void update(Film film) {
         getById(film.getId());
         filmDbStorage.update(film);
@@ -66,7 +69,7 @@ public class FilmService {
             }
         }
 
-        List<Genre> currentGenreFilm = filmDbStorage.getGenres(film.getId());
+        List<Genre> currentGenreFilm = genreService.getGenresId(film.getId());
         for (Genre current : currentGenreFilm) {
             if (!actualGenreFilm.contains(current)) {
                 filmDbStorage.deleteGenre(film.getId(), current.getId());
@@ -75,8 +78,23 @@ public class FilmService {
         film.setGenres(actualGenreFilm);
     }
 
+    /**
+     * Запрос на все фильмы
+     */
     public List<Film> getAll() {
-        return filmDbStorage.findAll();
+        var result = filmDbStorage.findAll();
+        for (Film film : result) {
+            film.setGenres(genreService.getGenresId(film.getId()));
+        }
+
+        return result;
+    }
+
+    /**
+     * запрос в хранилище жанров на все жанры для выбранных фильмов
+     */
+    public List<Genre> getGenresFilm(Integer filmId) {
+        return genreService.getGenresId(filmId);
     }
 
     public void addLike(Integer filmId, Integer userId) {

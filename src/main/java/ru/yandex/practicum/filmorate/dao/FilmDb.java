@@ -31,5 +31,5 @@ public interface FilmDb {
 
     boolean deleteLike(Integer idFilm, Integer idUser);
 
-    List<Genre> getGenres(Integer filmId);
+   // List<Genre> getGenres(Integer filmId);
 }

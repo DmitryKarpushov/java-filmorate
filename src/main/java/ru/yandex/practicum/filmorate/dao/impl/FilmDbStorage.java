@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.dao.FilmDb;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.service.GenreService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,12 +24,10 @@ import java.util.Optional;
 public class FilmDbStorage implements FilmDb {
 
     private final JdbcTemplate jdbcTemplate;
-    private final GenreService genreService;
 
     @Autowired
-    public FilmDbStorage(JdbcTemplate jdbcTemplate, GenreService genreService) {
+    public FilmDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.genreService = genreService;
     }
 
     @Override
@@ -159,22 +155,22 @@ public class FilmDbStorage implements FilmDb {
         return false;
     }
 
-    @Override
-    public List<Genre> getGenres(Integer idFilm) {
-        log.info("FilmDbStorage. getGenres. idFilm: {}", idFilm);
-        String sqlQuery = String.format("SELECT GENRE_ID\n" +
-                "FROM FILM_TO_GENRE\n" +
-                "WHERE FILM_ID = %d", idFilm);
-        List<Integer> idGenres = jdbcTemplate.queryForList(sqlQuery, Integer.class);
-        List<Genre> genres = new ArrayList<>();
-        System.out.println("idGenres = " + idGenres);
-        for (Integer id : idGenres) {
-            System.out.println("id = " + id);
-            genres.add(genreService.getById(id));
-        }
-
-        return genres;
-    }
+//    @Override
+//    public List<Genre> getGenres(Integer idFilm) {
+//        log.info("FilmDbStorage. getGenres. idFilm: {}", idFilm);
+//        String sqlQuery = String.format("SELECT GENRE_ID\n" +
+//                "FROM FILM_TO_GENRE\n" +
+//                "WHERE FILM_ID = %d", idFilm);
+//        List<Integer> idGenres = jdbcTemplate.queryForList(sqlQuery, Integer.class);
+//        List<Genre> genres = new ArrayList<>();
+//        System.out.println("idGenres = " + idGenres);
+//        for (Integer id : idGenres) {
+//            System.out.println("id = " + id);
+//            genres.add(genreService.getById(id));
+//        }
+//
+//        return genres;
+//    }
 
     private boolean findGenreToFilm(Integer idFilm, Integer idGenre) {
         String sqlQuery = String.format("SELECT COUNT(*)\n" +
@@ -213,7 +209,7 @@ public class FilmDbStorage implements FilmDb {
                 , new Mpa(resultSet.getInt("MPA_ID") , resultSet.getString("MPA_NAME"))
                 , new ArrayList<>());
         film.setId(resultSet.getInt("FILM_ID"));
-        film.setGenres(getGenres(film.getId()));
+        //film.setGenres(getGenres(film.getId()));
         film.setRateAndLikes(getRateAndLikeFilm(film.getId()));
 
         return film;

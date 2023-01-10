@@ -14,4 +14,7 @@ public interface GenreDb {
     String findById(Integer id);
 
     List<Genre> findAll();
+
+    List<Genre> getGenres(Integer filmId);
+
 }

@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.dao.GenreDb;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.service.GenreService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +39,21 @@ public class GenreDbStorage implements GenreDb {
         }
 
         return names.get(0);
+    }
+
+    @Override
+    public List<Genre> getGenres(Integer idFilm) {
+        log.info("FilmDbStorage. getGenres. idFilm: {}", idFilm);
+        String sqlQuery = String.format("SELECT GENRE_ID\n" +
+                "FROM FILM_TO_GENRE\n" +
+                "WHERE FILM_ID = %d", idFilm);
+        List<Integer> idGenres = jdbcTemplate.queryForList(sqlQuery, Integer.class);
+        List<Genre> genres = new ArrayList<>();
+        for (Integer id : idGenres) {
+            genres.add(new Genre(id,findById(id)));
+        }
+
+        return genres;
     }
 
     @Override

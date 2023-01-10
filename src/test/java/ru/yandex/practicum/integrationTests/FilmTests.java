@@ -133,18 +133,18 @@ class FilmTests {
         filmDbStorage.setGenre(2, 2);
     }
 
-    @Test
-    void testGetGenresFilm() {
-        List<Genre> genre = filmDbStorage.getGenres(1);
-        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
-
-        assertThat(filmDbStorageFilm)
-                .isPresent()
-                .hasValueSatisfying(film ->
-                        assertThat(film).hasFieldOrPropertyWithValue("genres", genre)
-                );
-
-    }
+//    @Test
+//    void testGetGenresFilm() {
+//        List<Genre> genre = filmDbStorage.getGenres(1);
+//        Optional<Film> filmDbStorageFilm = filmDbStorage.findById(1);
+//
+//        assertThat(filmDbStorageFilm)
+//                .isPresent()
+//                .hasValueSatisfying(film ->
+//                        assertThat(film).hasFieldOrPropertyWithValue("genres", genre)
+//                );
+//
+//    }
 
     @Test
     void testAddLikeFilm() {

@@ -25,6 +25,10 @@ public class GenreService {
         return genreDbStorage.findAll();
     }
 
+    public List<Genre> getGenresId(Integer id){
+        return genreDbStorage.getGenres(id);
+    }
+
     public Genre getById(Integer id){
         return new Genre(id, genreDbStorage.findById(id));
     }
